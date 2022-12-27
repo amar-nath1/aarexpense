@@ -1,15 +1,16 @@
-import { Button, Container, Form } from "react-bootstrap"
+import { Button, Card, Container, Form } from "react-bootstrap"
 
 import { useRef } from "react"
+import { Link } from "react-router-dom"
 
 
-const AuthPage=()=>{
+const SignUp=()=>{
 
     const emailRef=useRef()
     const passwordRef=useRef()
     const confPasswordRef=useRef()
 
-    const authFormSubmitHandler=(event)=>{
+    const signupFormSubmitHandler=(event)=>{
         event.preventDefault()
        const emailInput=emailRef.current.value
        const passwordInput=passwordRef.current.value
@@ -61,9 +62,12 @@ const AuthPage=()=>{
     }
 
     return (
-        <Container className='border border-secondary p-4 m-4 w-25'>
+
+        <Container className='border border-secondary p-4 m-4 w-50'>
+
+        <Container >
             <h2 className="ms-4 mb-4 border-bottom pb-2 border-secondary">Sign Up</h2>
-        <Form onSubmit={authFormSubmitHandler}>
+        <Form onSubmit={signupFormSubmitHandler}>
         
         <Form.Group className="mb-3"  controlId="formBasicEmail">
         <Form.Control type='email' placeholder='Enter Email' required ref={emailRef}/>
@@ -78,8 +82,13 @@ const AuthPage=()=>{
         <Button className='w-100' type='submit' variant='success'> Sign Up</Button>
         </Form>
         </Container>
+        
+        <Card.Text className='m-2'>Dont have an Account? <Link to='/login'>Sign Up</Link> </Card.Text>
+       
+        </Container>
+
     )
 
 }
 
-export default AuthPage
+export default SignUp

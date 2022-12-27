@@ -1,10 +1,19 @@
 
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import AuthPage from './Pages/AuthPage';
+import Dashboard from './Pages/Dashboard';
+import Login from './Pages/Login';
+import SignUp from './Pages/SignUp';
 
 function App() {
   return (
-    <AuthPage></AuthPage>
+
+    <Routes>
+      <Route path='/' element={<SignUp></SignUp>}/>
+      <Route path='/signup' element={<SignUp></SignUp>}/>
+      <Route path='/login' element={<Login></Login>}/>
+      <Route path='/dashboard' element={<Dashboard/>}/>
+    </Routes>
   );
 }
 
