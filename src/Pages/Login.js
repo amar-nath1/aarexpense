@@ -67,6 +67,7 @@ const navigate=useNavigate()
     <Button className='w-100' type='submit' variant='success'> Login</Button>
     </Form>
     </Container>
+    <Card.Text className='m-2'><Link to='forgotpassword'>Forgot Password</Link> </Card.Text>
     <Card.Text className='m-2'>Dont have an Account? <Link to='/signup'>Sign Up</Link> </Card.Text>
     </Container>
     )
