@@ -33,7 +33,7 @@ const navigate=useNavigate()
 
                 res.json().then((data)=>{
                     console.log('login successful')
-                    localStorage.setItem('token',JSON.stringify({tok:data.idToken,email:data.email}))
+                    localStorage.setItem('currUser',JSON.stringify({token:data.idToken,email:data.email}))
                     navigate('/dashboard')
 
                 })

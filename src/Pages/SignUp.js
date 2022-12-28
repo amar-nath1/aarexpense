@@ -1,10 +1,11 @@
 import { Button, Card, Container, Form } from "react-bootstrap"
 
 import { useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 const SignUp=()=>{
+    const navigate=useNavigate()
 
     const emailRef=useRef()
     const passwordRef=useRef()
@@ -39,6 +40,8 @@ const SignUp=()=>{
                 if (res.ok){
                     res.json().then((data)=>{
                         console.log(`${data.email} is now registered`)
+                        localStorage.setItem('currUser',JSON.stringify({token:data.idToken,email:data.email}))
+                    navigate('/dashboard')
                     })
                 }
 
@@ -83,7 +86,7 @@ const SignUp=()=>{
         </Form>
         </Container>
         
-        <Card.Text className='m-2'>Dont have an Account? <Link to='/login'>Sign Up</Link> </Card.Text>
+        <Card.Text className='m-2'>Dont have an Account? <Link to='/login'>Login</Link> </Card.Text>
        
         </Container>
 
