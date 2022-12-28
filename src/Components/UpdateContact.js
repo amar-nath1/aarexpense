@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { Button, Container, Form } from "react-bootstrap"
 
 const UpdateContact=(props)=>{
@@ -6,6 +6,14 @@ const UpdateContact=(props)=>{
     const fnameRef=useRef()
     const photoRef=useRef()
 
+    const userDetail=JSON.parse(localStorage.getItem('currUser'))
+    
+    useEffect(()=>{
+
+        fnameRef.current.value=userDetail.fullName
+        photoRef.current.value=userDetail.photoUrl
+
+    },[])
     const profileUpdateHandler=(event)=>{
 
         event.preventDefault()
@@ -35,12 +43,14 @@ const UpdateContact=(props)=>{
                 res.json().then((data)=>{
                     localStorage.setItem('currUser',JSON.stringify(
                         {
-                            idToken: data.idToken,
+                            token: tokenObj.token,
                             fullName:data.displayName,
                             photoUrl:data.photoUrl, 
                             email:data.email
+
                         }
                     ))
+                    props.updateContactDet(false)
                 })
             }
         })
