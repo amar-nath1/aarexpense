@@ -9,6 +9,40 @@ const Dashboard=()=>{
     const [updateContact,setUpdateContact]=useState(false)
     const [profileCompleted,setProfileCompleted]=useState(false)
 
+    const userObj= JSON.parse(localStorage.getItem('currUser'))
+    const userToken=userObj.token
+
+    const verifyEmailHandler=()=>{
+
+        fetch('https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDAm8-U9Z7Kq3Mf5WXNnNnR_94M06T1f_k',
+        
+        {
+            method:'POST',
+            body:JSON.stringify(
+                {
+                    requestType:'VERIFY_EMAIL',
+                    idToken:userToken
+                }
+            )
+        }
+        
+        ).then((res)=>{
+            if (res.ok){
+                    res.json().then((data)=>{
+                        console.log(data, 'is now veryfied')
+                    })
+
+            }
+            else{
+                res.json().then((data)=>{
+                    if (data && data.error && data.error.message){
+                        alert(data.error.message)
+                    }
+                })
+            }
+        })
+    }
+
     const completeProfileHandler=(showUpdateContact)=>{
 
         if (showUpdateContact===false){
@@ -19,8 +53,7 @@ const Dashboard=()=>{
         }
        
     }
-   const userObj= JSON.parse(localStorage.getItem('currUser'))
-    const userToken=userObj.token
+   
 
 
     useEffect(()=>{
@@ -56,6 +89,7 @@ const Dashboard=()=>{
            {!profileCompleted && <div >Your profile is incomplete. <p className="text-primary" style={{cursor: 'pointer'}} onClick={completeProfileHandler}>Complete Now</p></div>}
            {profileCompleted && <p className="text-primary" style={{cursor: 'pointer'}} onClick={completeProfileHandler}>view/update Profile</p>}
         </Container>
+        <Button onClick={verifyEmailHandler}>Verify Email</Button>
         
         {updateContact && <UpdateContact updateContactDet={completeProfileHandler}></UpdateContact>}
         </>
