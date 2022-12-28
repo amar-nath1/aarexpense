@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { Button, Container, Form } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import UpdateContact from "../Components/UpdateContact"
 
 
@@ -9,8 +9,17 @@ const Dashboard=()=>{
     const [updateContact,setUpdateContact]=useState(false)
     const [profileCompleted,setProfileCompleted]=useState(false)
 
+    const navigate=useNavigate()
+
     const userObj= JSON.parse(localStorage.getItem('currUser'))
     const userToken=userObj.token
+
+    const logoutHandler=()=>{
+
+        localStorage.removeItem('currUser')
+        navigate('/login')
+
+    }
 
     const verifyEmailHandler=()=>{
 
@@ -87,7 +96,9 @@ const Dashboard=()=>{
         <Container className="d-flex justify-content-between border-bottom border-danger m-4 p-2" >
             <div >Welcome to Expense Tracker App</div>
            {!profileCompleted && <div >Your profile is incomplete. <p className="text-primary" style={{cursor: 'pointer'}} onClick={completeProfileHandler}>Complete Now</p></div>}
-           {profileCompleted && <p className="text-primary" style={{cursor: 'pointer'}} onClick={completeProfileHandler}>view/update Profile</p>}
+           {profileCompleted && <div><p className="text-primary" style={{cursor: 'pointer'}} onClick={completeProfileHandler}>view/update Profile</p>
+           <p className="text-primary" style={{cursor: 'pointer'}} onClick={logoutHandler}>Logout</p></div>
+           }
         </Container>
         <Button onClick={verifyEmailHandler}>Verify Email</Button>
         
