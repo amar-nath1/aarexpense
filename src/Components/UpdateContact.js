@@ -6,12 +6,20 @@ const UpdateContact=(props)=>{
     const fnameRef=useRef()
     const photoRef=useRef()
 
-    const userDetail=JSON.parse(localStorage.getItem('currUser'))
+   
+   const alreadyCompleted = !!props.fullprofiledetail
     
     useEffect(()=>{
+        
+        if (alreadyCompleted){
+            
+            fnameRef.current.value=props.fullprofiledetail.fullName
+            photoRef.current.value=props.fullprofiledetail.photoUrl
 
-        fnameRef.current.value=userDetail.fullName
-        photoRef.current.value=userDetail.photoUrl
+        }
+        
+
+        
 
     },[])
     const profileUpdateHandler=(event)=>{
@@ -74,6 +82,7 @@ const UpdateContact=(props)=>{
                 <div className="d-flex">
                 <div className="me-4">Profile Photo URL: </div>
                 <div><input type='text' ref={photoRef} required></input></div>
+                {alreadyCompleted && <div><img style={{width:'100px',height:'100px'}} src={props.fullprofiledetail.photoUrl} ></img></div>}
                 </div>
             </div>
             <Button variant='secondary' type='submit' className='m-4'>Update</Button>

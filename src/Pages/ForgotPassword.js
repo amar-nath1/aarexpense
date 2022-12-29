@@ -32,8 +32,9 @@ const navigate=useNavigate()
         }
         )
         .then((res)=>{
+            setIsLoading(false)
             if (res.ok){
-                setIsLoading(false)
+                
 
                 res.json().then((data)=>{
                     alert(`Reset Password Instructions send to ${data.email}`)
@@ -47,7 +48,7 @@ const navigate=useNavigate()
                     alert(data.error.message)
                 })
             }
-
+            
         })
 
     }

@@ -1,10 +1,15 @@
 import { Button, Card, Container, Form } from "react-bootstrap"
 
-import { useRef } from "react"
+import { useRef,useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import AuthContext from "../store/auth-context"
 
 
 const SignUp=()=>{
+
+    const authCtx=useContext(AuthContext)
+    console.log(authCtx.isLoggedIn)
+
     const navigate=useNavigate()
 
     const emailRef=useRef()
@@ -86,7 +91,7 @@ const SignUp=()=>{
         </Form>
         </Container>
         
-        <Card.Text className='m-2'>Dont have an Account? <Link to='/login'>Login</Link> </Card.Text>
+        <Card.Text className='m-2'>Already have an Account? <Link to='/login'>Login</Link> </Card.Text>
        
         </Container>
 

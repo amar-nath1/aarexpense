@@ -1,6 +1,7 @@
-import { useRef } from "react"
+import { useContext, useRef } from "react"
 import { Button, Card, Container, Form } from "react-bootstrap"
 import { Link,useNavigate } from "react-router-dom"
+import AuthContext from "../store/auth-context"
 
 
 const Login=()=>{
@@ -8,6 +9,7 @@ const Login=()=>{
 const emailRef=useRef()
 const passwordRef=useRef()
 const navigate=useNavigate()
+ const authCtx= useContext(AuthContext)
 
     const loginFormSubmitHandler=(event)=>{
         event.preventDefault()
@@ -34,6 +36,7 @@ const navigate=useNavigate()
                 res.json().then((data)=>{
                     console.log('login successful')
                     localStorage.setItem('currUser',JSON.stringify({token:data.idToken,email:data.email}))
+                    authCtx.loginTrue(true)
                     navigate('/dashboard')
 
                 })
