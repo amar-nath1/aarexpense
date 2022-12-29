@@ -12,13 +12,14 @@ export default AuthContext
 
 export const AuthProvider=(props)=>{
 
-    const [isLogin,setIsLogin]=useState(false)
+    const login=JSON.parse(localStorage.getItem('currUser'))
+    const [isLogin,setIsLogin]=useState(!!login)
 
     const makeLoginTrue=(tf)=>{
         setIsLogin(tf)
     }
     
-    const login=JSON.parse(localStorage.getItem('currUser'))
+    
     useEffect(()=>{
         
         if (login){

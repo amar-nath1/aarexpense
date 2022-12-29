@@ -18,8 +18,10 @@ function App() {
     <Layout>
     <Routes>
       <Route path='/' element={<SignUp></SignUp>}/>
-      <Route path='/signup' element={<SignUp></SignUp>}/>
-      <Route path='/login' element={<Login></Login>}/>
+      {authCtx.isLoggedIn && <Route path='/signup' element={<Navigate to='/dashboard'/>}/>}
+      {!authCtx.isLoggedIn && <Route path='/signup' element={<SignUp></SignUp>}/>}
+      {authCtx.isLoggedIn && <Route path='/login' element={<Navigate to='/dashboard'/>}/>}
+      {!authCtx.isLoggedIn && <Route path='/login' element={<Login></Login>}/>}
       {authCtx.isLoggedIn && <Route path='/expensehome' element={<ExpenseHome/>}/>}
       {!authCtx.isLoggedIn && <Route path='/expensehome' element={<Navigate to='/login'></Navigate>}/>}
       <Route path='/login/forgotpassword' element={<ForgotPassword></ForgotPassword>} />

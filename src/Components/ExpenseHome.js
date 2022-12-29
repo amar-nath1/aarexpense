@@ -2,6 +2,7 @@ import { Button, Form, Container, Spinner } from "react-bootstrap"
 import { useContext, useEffect, useRef, useState } from "react"
 import AllExpenses from "./AllExpenses"
 import AuthContext from "../store/auth-context"
+import axios from "axios"
 
 
 const ExpenseHome=()=>{
@@ -53,9 +54,54 @@ catch(error){
 setLoading(false)
 }
 
+//fetch Handler End
+let edit={type:false,data:null}
+const editClickHandler=(data)=>{
+    edit={type:true,data:data}
+    amountRef.current.value=data.amount
+    descRef.current.value=data.description
+    categRef.current.value=data.category
+}
+
     const expenseSubmitHandler=async(event)=>{
         event.preventDefault()
         setLoading(true)
+
+if (edit.type===true){
+
+    
+
+    const amount= amountRef.current.value
+    const description= descRef.current.value
+    const category= categRef.current.value
+
+    try{
+
+        axios.put(`https://aarexpense-default-rtdb.firebaseio.com/${userEmail}/${edit.data.id}.json`,
+        
+        {
+            id:edit.data.id,
+            amount:amount,
+            category:category,
+            description:description
+        }
+
+        )
+        .then(()=>{
+            expenseFetchHandler()
+            console.log('updated successfully')
+
+        
+        })
+
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+else{
+
        const amount= amountRef.current.value
     const description= descRef.current.value
     const category= categRef.current.value
@@ -91,14 +137,14 @@ setLoading(false)
                 setError(error.message)
             }
 
+        }
+
             setLoading(false)
         
-
     }
 
     useEffect(()=>{
         expenseFetchHandler()
-
 
 
     },[])
@@ -118,13 +164,12 @@ setLoading(false)
             <option value='Edibles'>Edibles</option>
             <option value='Entertainment'>Entertainment</option>
             <option value='Others'>Others</option>
-
             </select>
             <Button type='submit' >Add Expense</Button>
         </Form>
         { loading && <div className='centered'> <Spinner ></Spinner></div>}
 
-        <AllExpenses expenses={expenseArr}></AllExpenses>
+        <AllExpenses expenses={expenseArr} userEmail={userEmail} editClick={editClickHandler} expenseFetch={expenseFetchHandler}></AllExpenses>
         </Container>
     )
 }

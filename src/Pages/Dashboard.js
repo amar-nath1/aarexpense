@@ -96,16 +96,16 @@ const Dashboard=()=>{
 
     return (
         <>
-        <Container className="d-flex justify-content-between border-bottom border-danger m-4 p-2" >
-            <div >Welcome to Expense Tracker App</div><div><Link to='/expensehome'>Add/View Expenses</Link>
-            
+        <Container className="d-flex justify-content-end border-bottom border-danger m-4 p-2" >
+        <p className="text-primary me-3" onClick={verifyEmailHandler} style={{cursor: 'pointer',textDecoration:'underline'}}>Verify Email</p>
+            <div className="me-3"><Link to='/expensehome'>Add/View Expenses</Link>
             </div>
            {!profileCompleted && <div >Your profile is incomplete. <p className="text-primary" style={{cursor: 'pointer'}} onClick={completeProfileHandler}>Complete Now</p></div>}
-           {!!profileCompleted && <div><p className="text-primary" style={{cursor: 'pointer'}} onClick={completeProfileHandler}>view/update Profile</p>
+           {!!profileCompleted && <div><p className="text-primary" style={{cursor: 'pointer',textDecoration:'underline'}} onClick={completeProfileHandler}>view/update Profile</p>
            </div>
            }
         </Container>
-        <Button onClick={verifyEmailHandler}>Verify Email</Button>
+        
         
         {updateContact && <UpdateContact fullprofiledetail={profileCompleted} updateContactDet={completeProfileHandler}></UpdateContact>}
         </>
