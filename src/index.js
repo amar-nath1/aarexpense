@@ -7,15 +7,18 @@ import reportWebVitals from './reportWebVitals';
 import '../node_modules/react-bootstrap/dist/react-bootstrap'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './store/auth-context';
+
+
+import { Provider } from 'react-redux';
+import store from './store/indexRedux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AuthProvider>
+  <Provider store={store}>
   <BrowserRouter>
     <App />
     </BrowserRouter>
-    </AuthProvider>
+    </Provider>
   
 );
 

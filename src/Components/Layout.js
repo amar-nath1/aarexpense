@@ -1,16 +1,19 @@
 import { Fragment,useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import classes from './Layout.module.css'
-import AuthContext from "../store/auth-context"
-
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { authActions } from "../store/authSlice"
 const Layout=(props)=>{
-    const authCtx=useContext(AuthContext)
-    const navigate=useNavigate()
+    const isLoggedIn=useSelector(state=>state.auth.authenticated)
+    const dispatch=useDispatch()
 
+    const navigate=useNavigate()
+const isElgPrem=useSelector(state=>state.expenses.premElg)
     const logoutHandler=()=>{
 
         localStorage.removeItem('currUser')
-        authCtx.loginTrue(false)
+        dispatch(authActions.logout())
         navigate('/login')
 
     }
@@ -21,9 +24,10 @@ const Layout=(props)=>{
             <div className={classes.logo}>Welcome to Expense Tracker</div>
             <nav className={classes.nav}>
 
-                { authCtx.isLoggedIn && <ul>
+                { isLoggedIn && <ul>
                     <li><Link to='/dashboard' className="text-white">Dashboard</Link> </li>
                     <li><p className="text-white" style={{cursor: 'pointer'}} onClick={logoutHandler}>Logout</p> </li>
+                   {isElgPrem && <li><p className="text-white" style={{cursor: 'pointer'}} >Go Premium</p> </li>}
                     
                 </ul>}
             </nav>

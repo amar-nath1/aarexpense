@@ -1,14 +1,15 @@
 import { Button, Card, Container, Form } from "react-bootstrap"
 
-import { useRef,useContext } from "react"
+import { useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import AuthContext from "../store/auth-context"
+import { useDispatch } from "react-redux"
+import { authActions } from "../store/authSlice"
 
 
 const SignUp=()=>{
 
-    const authCtx=useContext(AuthContext)
-    console.log(authCtx.isLoggedIn)
+    const dispatch=useDispatch()
+    
 
     const navigate=useNavigate()
 
@@ -46,6 +47,9 @@ const SignUp=()=>{
                     res.json().then((data)=>{
                         console.log(`${data.email} is now registered`)
                         localStorage.setItem('currUser',JSON.stringify({token:data.idToken,email:data.email}))
+                        dispatch(authActions.login)
+                        dispatch(authActions.userEmail(data.email))
+                        dispatch(authActions.userToken(data.idToken))
                     navigate('/dashboard')
                     })
                 }

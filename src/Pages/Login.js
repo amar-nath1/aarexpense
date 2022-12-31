@@ -1,15 +1,18 @@
-import { useContext, useRef } from "react"
+import { useRef } from "react"
 import { Button, Card, Container, Form } from "react-bootstrap"
+import { useSelector } from "react-redux"
 import { Link,useNavigate } from "react-router-dom"
-import AuthContext from "../store/auth-context"
-
+import { useDispatch } from "react-redux"
+import { authActions } from "../store/authSlice"
 
 const Login=()=>{
 
 const emailRef=useRef()
 const passwordRef=useRef()
 const navigate=useNavigate()
- const authCtx= useContext(AuthContext)
+
+const dispatch=useDispatch()
+ 
 
     const loginFormSubmitHandler=(event)=>{
         event.preventDefault()
@@ -36,7 +39,9 @@ const navigate=useNavigate()
                 res.json().then((data)=>{
                     console.log('login successful')
                     localStorage.setItem('currUser',JSON.stringify({token:data.idToken,email:data.email}))
-                    authCtx.loginTrue(true)
+                    dispatch(authActions.login())
+                    dispatch(authActions.userEmail(data.email))
+                    dispatch(authActions.userToken(data.idToken))
                     navigate('/dashboard')
 
                 })
@@ -51,6 +56,7 @@ const navigate=useNavigate()
         })
 
     }
+    
 
     return (
 

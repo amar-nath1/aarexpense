@@ -1,22 +1,17 @@
-import { useEffect, useContext, useState } from "react"
-import { Button, Container, Form } from "react-bootstrap"
+import { useEffect, useState } from "react"
+import { Container, Form } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import UpdateContact from "../Components/UpdateContact"
-import AuthContext from "../store/auth-context"
+import { useSelector } from "react-redux"
 
 const Dashboard=()=>{
-
+    const myemail= useSelector(state=>state.auth.emailId)
+    const userToken= useSelector(state=>state.auth.token)
     
 
     const [updateContact,setUpdateContact]=useState(false)
     const [profileCompleted,setProfileCompleted]=useState(null)
 
-    const navigate=useNavigate()
-
-    const userObj= JSON.parse(localStorage.getItem('currUser'))
-    const userToken=userObj.token
-
-   
 
     const verifyEmailHandler=()=>{
 

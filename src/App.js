@@ -1,5 +1,6 @@
 
 import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import ExpenseHome from './Components/ExpenseHome';
@@ -8,26 +9,28 @@ import Dashboard from './Pages/Dashboard';
 import ForgotPassword from './Pages/ForgotPassword';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
-import AuthContext, { AuthProvider } from './store/auth-context';
+
 
 function App() {
-  const authCtx=useContext(AuthContext)
+  const isLoggedIn=useSelector(state=>state.auth.authenticated)
   
   return (
     
     <Layout>
     <Routes>
-      <Route path='/' element={<SignUp></SignUp>}/>
-      {authCtx.isLoggedIn && <Route path='/signup' element={<Navigate to='/dashboard'/>}/>}
-      {!authCtx.isLoggedIn && <Route path='/signup' element={<SignUp></SignUp>}/>}
-      {authCtx.isLoggedIn && <Route path='/login' element={<Navigate to='/dashboard'/>}/>}
-      {!authCtx.isLoggedIn && <Route path='/login' element={<Login></Login>}/>}
-      {authCtx.isLoggedIn && <Route path='/expensehome' element={<ExpenseHome/>}/>}
-      {!authCtx.isLoggedIn && <Route path='/expensehome' element={<Navigate to='/login'></Navigate>}/>}
+
+      {!isLoggedIn && <Route path='/' element={<SignUp></SignUp>}/>}
+      {isLoggedIn && <Route path='/' element={<Navigate to='/dashboard'/>}/>}
+      {isLoggedIn && <Route path='/signup' element={<Navigate to='/dashboard'/>}/>}
+      {!isLoggedIn && <Route path='/signup' element={<SignUp></SignUp>}/>}
+      {isLoggedIn && <Route path='/login' element={<Navigate to='/dashboard'/>}/>}
+      {!isLoggedIn && <Route path='/login' element={<Login></Login>}/>}
+      {isLoggedIn && <Route path='/expensehome' element={<ExpenseHome/>}/>}
+      {!isLoggedIn && <Route path='/expensehome' element={<Navigate to='/login'></Navigate>}/>}
       <Route path='/login/forgotpassword' element={<ForgotPassword></ForgotPassword>} />
       
-      {authCtx.isLoggedIn && <Route path='/dashboard' element={<Dashboard/>}/>}
-      {!authCtx.isLoggedIn && <Route path='/dashboard' element={<Navigate to='/login'></Navigate>}/>}
+      {isLoggedIn && <Route path='/dashboard' element={<Dashboard/>}/>}
+      {!isLoggedIn && <Route path='/dashboard' element={<Navigate to='/login'></Navigate>}/>}
       
     </Routes>
     </Layout>
