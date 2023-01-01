@@ -5,10 +5,21 @@ import AllExpenses from "./AllExpenses"
 import axios from "axios"
 import { useSelector, useDispatch } from "react-redux"
 import { expenseActions } from "../store/expenseSlice"
+import { themeActions } from "../store/themeSlice"
 
 const ExpenseHome = () => {
 
-    // const [expenseArr, setExpenseArr] = useState([])
+    const themeHandler=(tf)=>{
+        if(tf===true){
+            document.body.style.backgroundColor='black'
+        
+        }
+        else if(tf===false){
+            document.body.style.backgroundColor='white'
+        }
+        }
+
+
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
@@ -52,12 +63,12 @@ const ExpenseHome = () => {
             else{
 
                 dispatch(expenseActions.eligibleForPrem(false))
+                dispatch(themeActions.darkTheme(false))
+                themeHandler(false)
             }
             
             dispatch(expenseActions.updateExpArr(expArr))
             
-            
-
         }
         catch (error) {
             setError(error.message)
@@ -79,8 +90,6 @@ const ExpenseHome = () => {
         setLoading(true)
 
         if (edit.type === true) {
-
-
 
             const amount = amountRef.current.value
             const description = descRef.current.value
@@ -178,9 +187,9 @@ const ExpenseHome = () => {
                 </select>
                 <Button type='submit' >Add Expense</Button>
             </Form>
-            {loading && <div className='centered'> <Spinner ></Spinner></div>}
+            {loading && <div className='centered'> <Spinner variant="light"></Spinner></div>}
 
-            <AllExpenses expenses={expenseArr} userEmail={userEmail} editClick={editClickHandler} expenseFetch={expenseFetchHandler}></AllExpenses>
+            <AllExpenses elgForPrem={elgForPrem} expenses={expenseArr} userEmail={userEmail} editClick={editClickHandler} expenseFetch={expenseFetchHandler}></AllExpenses>
         </Container>
     )
 }
